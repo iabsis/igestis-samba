@@ -75,7 +75,8 @@ class SambaLdapUpdate {
 
             
             // Launch the update in the ldap database
-            foreach ($nodesList as $node) {               
+            foreach ($nodesList as $node) {      
+                \Igestis\Utils\Debug::addDump($ldap->mergeArrays($nodesList, $ldapArray), "merged", 5);
                 $node->modify($ldap->mergeArrays($nodesList, $ldapArray));
             }
         } catch (Exception $exc) {
