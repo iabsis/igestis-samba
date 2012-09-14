@@ -1,0 +1,247 @@
+dn: dc=iabsis,dc=local
+objectClass: dcObject
+objectclass: organization
+o: iabsis
+dc: iabsis
+
+dn: ou=Users,dc=iabsis,dc=local
+objectClass: top
+objectClass: organizationalUnit
+ou: Users
+
+dn: ou=Groups,dc=iabsis,dc=local
+objectClass: top
+objectClass: organizationalUnit
+ou: Groups
+
+dn: ou=Machines,dc=iabsis,dc=local
+objectClass: top
+objectClass: organizationalUnit
+ou: Machines
+
+dn: ou=Idmap,dc=iabsis,dc=local
+objectClass: top
+objectClass: organizationalUnit
+ou: Idmap
+
+dn: ou=Customers,dc=iabsis,dc=local
+objectClass: top
+objectClass: organizationalUnit
+ou: Customers
+
+dn: uid=root,ou=Users,dc=iabsis,dc=local
+cn: root
+sn: root
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: sambaSAMAccount
+objectClass: posixAccount
+objectClass: shadowAccount
+gidNumber: 0
+uid: root
+uidNumber: 0
+homeDirectory: /home/root
+sambaPwdLastSet: 0
+sambaLogonTime: 0
+sambaLogoffTime: 2147483647
+sambaKickoffTime: 2147483647
+sambaPwdCanChange: 0
+sambaPwdMustChange: 2147483647
+sambaHomePath: \\SERVEUR\root
+sambaHomeDrive: Z:
+sambaProfilePath: \\SERVEUR\root\.profiles
+sambaPrimaryGroupSID: S-1-5-21-1617723000-66580594-1567275197-512
+sambaLMPassword: XXX
+sambaNTPassword: XXX
+sambaAcctFlags: [U          ]
+sambaSID: S-1-5-21-1617723000-66580594-1567275197-500
+loginShell: /bin/false
+gecos: Netbios Domain Administrator
+
+dn: uid=nobody,ou=Users,dc=iabsis,dc=local
+cn: nobody
+sn: nobody
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: sambaSAMAccount
+objectClass: posixAccount
+objectClass: shadowAccount
+gidNumber: 65534
+uid: nobody
+uidNumber: 65534
+homeDirectory: /nonexistent
+sambaPwdLastSet: 0
+sambaLogonTime: 0
+sambaLogoffTime: 2147483647
+sambaKickoffTime: 2147483647
+sambaPwdCanChange: 0
+sambaPwdMustChange: 2147483647
+sambaHomePath: \\SERVEUR\nobody
+sambaHomeDrive: Z:
+sambaProfilePath: \\SERVEUR\nobody\.profiles
+sambaPrimaryGroupSID: S-1-5-21-1617723000-66580594-1567275197-514
+sambaLMPassword: NO PASSWORDXXXXXXXXXXXXXXXXXXXXX
+sambaNTPassword: NO PASSWORDXXXXXXXXXXXXXXXXXXXXX
+# account disabled by default
+sambaAcctFlags: [NUD        ]
+sambaSID: S-1-5-21-1617723000-66580594-1567275197-2998
+loginShell: /bin/sh
+
+dn: cn=Domain Admins,ou=Groups,dc=iabsis,dc=local
+objectClass: top
+objectClass: posixGroup
+objectClass: sambaGroupMapping
+gidNumber: 512
+cn: Domain Admins
+memberUid: root
+description: Netbios Domain Administrators
+sambaSID: S-1-5-21-1617723000-66580594-1567275197-512
+sambaGroupType: 2
+displayName: Domain Admins
+
+dn: cn=Domain Users,ou=Groups,dc=iabsis,dc=local
+objectClass: top
+objectClass: posixGroup
+objectClass: sambaGroupMapping
+gidNumber: 513
+cn: Domain Users
+description: Netbios Domain Users
+sambaSID: S-1-5-21-1617723000-66580594-1567275197-513
+sambaGroupType: 2
+displayName: Domain Users
+
+dn: cn=Domain Guests,ou=Groups,dc=iabsis,dc=local
+objectClass: top
+objectClass: posixGroup
+objectClass: sambaGroupMapping
+gidNumber: 514
+cn: Domain Guests
+description: Netbios Domain Guests Users
+sambaSID: S-1-5-21-1617723000-66580594-1567275197-514
+sambaGroupType: 2
+displayName: Domain Guests
+
+dn: cn=Domain Computers,ou=Groups,dc=iabsis,dc=local
+objectClass: top
+objectClass: posixGroup
+objectClass: sambaGroupMapping
+gidNumber: 515
+cn: Domain Computers
+description: Netbios Domain Computers accounts
+sambaSID: S-1-5-21-1617723000-66580594-1567275197-515
+sambaGroupType: 2
+displayName: Domain Computers
+
+dn: cn=Administrators,ou=Groups,dc=iabsis,dc=local
+objectClass: top
+objectClass: posixGroup
+objectClass: sambaGroupMapping
+gidNumber: 544
+cn: Administrators
+description: Netbios Domain Members can fully administer the computer/sambaDomainName
+sambaSID: S-1-5-32-544
+sambaGroupType: 5
+displayName: Administrators
+
+#dn: cn=Users,ou=Groups,dc=iabsis,dc=local
+#objectClass: top
+#objectClass: posixGroup
+#objectClass: sambaGroupMapping
+#gidNumber: 545
+#cn: Users
+#description: Netbios Domain Ordinary users
+#sambaSID: S-1-5-32-545
+#sambaGroupType: 5
+#displayName: users
+
+#dn: cn=Guests,ou=Groups,dc=iabsis,dc=local
+#objectClass: top
+#objectClass: posixGroup
+#objectClass: sambaGroupMapping
+#gidNumber: 546
+#cn: Guests
+#memberUid: nobody
+#description: Netbios Domain Users granted guest access to the computer/sambaDomainName
+#sambaSID: S-1-5-32-546
+#sambaGroupType: 5
+#displayName: Guests
+
+#dn: cn=Power Users,ou=Groups,dc=iabsis,dc=local
+#objectClass: top
+#objectClass: posixGroup
+#objectClass: sambaGroupMapping
+#gidNumber: 547
+#cn: Power Users
+#description: Netbios Domain Members can share directories and printers
+#sambaSID: S-1-5-32-547
+#sambaGroupType: 5
+#displayName: Power Users
+
+dn: cn=Account Operators,ou=Groups,dc=iabsis,dc=local
+objectClass: top
+objectClass: posixGroup
+objectClass: sambaGroupMapping
+gidNumber: 548
+cn: Account Operators
+description: Netbios Domain Users to manipulate users accounts
+sambaSID: S-1-5-32-548
+sambaGroupType: 5
+displayName: Account Operators
+
+#dn: cn=System Operators,ou=Groups,dc=iabsis,dc=local
+#objectClass: top
+#objectClass: posixGroup
+#objectClass: sambaGroupMapping
+#gidNumber: 549
+#cn: System Operators
+#description: Netbios Domain System Operators
+#sambaSID: S-1-5-32-549
+#sambaGroupType: 5
+#displayName: System Operators
+
+dn: cn=Print Operators,ou=Groups,dc=iabsis,dc=local
+objectClass: top
+objectClass: posixGroup
+objectClass: sambaGroupMapping
+gidNumber: 550
+cn: Print Operators
+description: Netbios Domain Print Operators
+sambaSID: S-1-5-32-550
+sambaGroupType: 5
+displayName: Print Operators
+
+dn: cn=Backup Operators,ou=Groups,dc=iabsis,dc=local
+objectClass: top
+objectClass: posixGroup
+objectClass: sambaGroupMapping
+gidNumber: 551
+cn: Backup Operators
+description: Netbios Domain Members can bypass file security to back up files
+sambaSID: S-1-5-32-551
+sambaGroupType: 5
+displayName: Backup Operators
+
+dn: cn=Replicators,ou=Groups,dc=iabsis,dc=local
+objectClass: top
+objectClass: posixGroup
+objectClass: sambaGroupMapping
+gidNumber: 552
+cn: Replicators
+description: Netbios Domain Supports file replication in a sambaDomainName
+sambaSID: S-1-5-32-552
+sambaGroupType: 5
+displayName: Replicators
+
+dn: sambaDomainName=IABSIS,dc=iabsis,dc=local
+objectClass: top
+objectClass: sambaDomain
+objectClass: sambaUnixIdPool
+sambaDomainName: IABSIS
+sambaSID: S-1-5-21-1617723000-66580594-1567275197
+uidNumber: 1000
+gidNumber: 1000
+sambaNextRid: 1000
