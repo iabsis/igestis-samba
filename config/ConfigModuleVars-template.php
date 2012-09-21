@@ -38,7 +38,37 @@ class ConfigModuleVars {
      */
     const textDomain = IGESTIS_SAMBA_TEXTDOMAIN;
     
+    /**
+     * 
+     * @var String Samba SID : use the command "net getlocalsid" to get this SID
+     */
     const sambaSID = "S-1-5-21-2252709396-1843137321-1411830039";
     
+    /**
+     * 
+     * @var Server hostname of the file server
+     */
     const serverName = "SERVER";
+    
+    /**
+     * 
+     * @var profilePath the full path where are stored the profiles.
+     * Use %u to replace by the username.
+     */
+    const profilePath = "\\\\SERVER\\%u\\.profiles";
+    
+    /**
+     * 
+     * @var homePath UNC home path for the user.
+     */
+    const homePath = "\\\\SERVER\\%u\\";
+    
+    /**
+     * 
+     * @var homeDrive Drive letter map by Windows on homePath.
+     */
+    const homeDrive = "Z:";
+    
+    
+    
 }

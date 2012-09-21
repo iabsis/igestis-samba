@@ -4,16 +4,6 @@ objectclass: organization
 o: iabsis
 dc: iabsis
 
-dn: ou=Users,dc=iabsis,dc=local
-objectClass: top
-objectClass: organizationalUnit
-ou: Users
-
-dn: ou=Groups,dc=iabsis,dc=local
-objectClass: top
-objectClass: organizationalUnit
-ou: Groups
-
 dn: ou=Machines,dc=iabsis,dc=local
 objectClass: top
 objectClass: organizationalUnit
