@@ -1,0 +1,63 @@
+{% extends "common.twig" %}
+
+{% set title = {'logo': "emblem-companies",
+                'title': "Samba information",
+                'help': "How to integrate Windows on Samba"} %}
+
+{% block content %}
+
+<h2>{% trans %}How to integrate your Microsoft Windows computer{% endtrans %}</h2>
+
+<div class="accordion">
+  <div class="accordion-group">
+    <div class="accordion-heading">
+      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+        Windows XP
+      </a>
+    </div>
+    <div id="collapseOne" class="accordion-body collapse">
+      <div class="accordion-inner">
+        <a href="http://www.microsoft.com/resources/documentation/windows/xp/all/proddocs/en-us/sysdm_ident_join_domain.mspx?mfr=true">Access to officiel Microsoft help</a>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-group">
+    <div class="accordion-heading">
+      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
+        Windows Vista / Windows 7 / Windows 8
+      </a>
+    </div>
+    <div id="collapseTwo" class="accordion-body collapse">
+      <div class="accordion-inner">
+        <a href="http://wiki.samba.org/index.php/Windows7">{% trans %}Access to the official Samba help{% endtrans %}</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<h2>{% trans %}List of all domain computers{% endtrans %}</h2>
+
+<table class="table table-bordered table-condensed table-striped">
+  <thead>
+    <tr>
+      <th>{% trans %}Computer name{% endtrans %}
+      <th>{% trans %}UID{% endtrans %}
+      <th>{% trans %}GID{% endtrans %}
+      <th>{% trans %}Samba SID{% endtrans %}
+    </tr>
+  </thead>
+  <tbody>
+  {% for computer in computer_list %}
+    <tr>
+      <td>{{ computer.uid }}</td>
+      <td>{{ computer.uidNumber }}</td>
+      <td>{{ computer.gidNumber }}</td>
+      <td>{{ computer.sambaSID }}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+
+
+
+{% endblock %}

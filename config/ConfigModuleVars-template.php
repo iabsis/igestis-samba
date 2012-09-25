@@ -69,6 +69,12 @@ class ConfigModuleVars {
      */
     const homeDrive = "Z:";
     
+    /**
+     * 
+     * @var LDAP_COMPUTER_OU Where are stored computers informations
+     */
+    const LDAP_COMPUTER_OU = "ou=Machines,dc=domaine,dc=local";
+    
     
     
 }
