@@ -53,7 +53,7 @@ case "$1" in
 	fi
 	
 	# To avoid config missing, we need to create a symbolic link
-	ucfr igestis_samba "$GLOBALVARS"
+	ucfr igestis-samba "$GLOBALVARS"
 
 	db_get igestis_samba/install_ldap
 	USE_LDAP="${RET}"
