@@ -29,10 +29,10 @@ case "$1" in
 
 
 	# Ask the user to use ldap or not.
-	db_input high igestis-samba/install_ldap || true
+	db_input high igestis_samba/install_ldap || true
 	db_go
 
-	db_get igestis-samba/install_ldap
+	db_get igestis_samba/install_ldap
 	INSTALL_LDAP="${RET}"
 
 	priority=low
@@ -85,7 +85,7 @@ case "$1" in
 					priority=high
 				;;
 				Ignore)
-					db_set igestis-samba/install_ldap false
+					db_set igestis_samba/install_ldap false
 					break
 				;;
 			esac

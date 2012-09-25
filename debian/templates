@@ -1,4 +1,4 @@
-Template: igestis-samba/install_ldap
+Template: igestis_samba/install_ldap
 Type: boolean
 _Description: Do you want that iGestis automatically installs OpenLDAP:
  In order to use this module, you have to install Samba schema.
