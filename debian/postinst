@@ -55,7 +55,7 @@ case "$1" in
 	# To avoid config missing, we need to create a symbolic link
 	ucfr igestis-samba "$GLOBALVARS"
 
-	db_get igestis/use_ldap
+	db_get igestis-samba/install_ldap
 	USE_LDAP="${RET}"
 
 	if [ "$USE_LDAP" = true ] ; then
@@ -91,20 +91,7 @@ case "$1" in
 
 	fi
 
-	# Clean all saved password from the config.
-	db_reset igestis/password1 || true
-	db_reset igestis/password2 || true
 	db_reset igestis/ldap/password || true
-
-	# Configure Apache
-	db_get igestis/reconfigure-webserver
-	webservers="$RET"
-
-	for webserver in $webservers; do
-		webserver=${webserver%,}
-		ln -sf /etc/igestis/apache.conf /etc/$webserver/conf.d/igestis
-                invoke-rc.d $webserver reload 3>/dev/null || true
-	done
 
 
     ;;

@@ -25,52 +25,25 @@ case "$1" in
     ;;
     install)
 
-	# We ask about a new root password used in iGestis.
-	while [ ! "${ROOT_PW1}" = "${ROOT_PW2}" -o -z "${ROOT_PW1}" ] ; do
-	    db_input high igestis/password1 || true
-	    db_go
 
-	    db_input high igestis/password2 || true
-	    db_go
 
-	    db_get igestis/password1
-	    ROOT_PW1="${RET}"
-
-	    db_get igestis/password2
-	    ROOT_PW2="${RET}"
-
-	    if [ ! "${ROOT_PW1}" = "${ROOT_PW2}" ] ; then
-		db_input high igestis/password/mismatch || true
-		db_go
-
-		db_reset igestis/password1
-		db_reset igestis/password2
-	    elif [ -z "${ROOT_PW1}" ] ; then
-
-		db_input high igestis/password/empty || true
-		db_go
-
-		db_reset igestis/password1
-		db_reset igestis/password2
-	    fi
-
-	done
 
 	# Ask the user to use ldap or not.
-	db_input high igestis/use_ldap || true
+	db_input high igestis-samba/install_ldap || true
 	db_go
 
-	db_get igestis/use_ldap
-	USE_LDAP="${RET}"
+	db_get igestis-samba/install_ldap
+	INSTALL_LDAP="${RET}"
 
 	priority=low
 
-	while [ "$USE_LDAP" = true ] ; do
-
+	while [ "$INSTALL_LDAP" = true ] ; do
+        
 		db_input $priority igestis/ldap/uris || true
 		db_go
 		db_get igestis/ldap/uris
 		LDAP_URIS="${RET}"
+        
 
 		LDAP_BASE="dc=`echo $(hostname -d) | sed 's/^\.//; s/\./,dc=/g'`"
 		db_set igestis/ldap/base "${LDAP_BASE}"
@@ -112,7 +85,7 @@ case "$1" in
 					priority=high
 				;;
 				Ignore)
-					db_set igestis/use_ldap false
+					db_set igestis-samba/install_ldap false
 					break
 				;;
 			esac
