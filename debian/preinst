@@ -1,0 +1,138 @@
+#!/bin/sh
+#
+# summary of how this script can be called:
+#        * <new-preinst> install
+#        * <new-preinst> install <old-version>
+#        * <new-preinst> upgrade <old-version>
+#        * <old-preinst> abort-upgrade <new-version>
+#
+
+set -e
+
+. /usr/share/debconf/confmodule
+
+CONFFILE=/etc/igestis/config.php
+
+case "$1" in
+    upgrade)
+     
+    # We move old style config file.
+    if [ -e "$CONFFILE" ] ; then
+        mkdir -p /var/backup/igestis/ && chmod 700 /var/backup/igestis/
+        mv $CONFFILE /var/backup/igestis/config.php
+    fi
+     
+    ;;
+    install)
+
+	# We ask about a new root password used in iGestis.
+	while [ ! "${ROOT_PW1}" = "${ROOT_PW2}" -o -z "${ROOT_PW1}" ] ; do
+	    db_input high igestis/password1 || true
+	    db_go
+
+	    db_input high igestis/password2 || true
+	    db_go
+
+	    db_get igestis/password1
+	    ROOT_PW1="${RET}"
+
+	    db_get igestis/password2
+	    ROOT_PW2="${RET}"
+
+	    if [ ! "${ROOT_PW1}" = "${ROOT_PW2}" ] ; then
+		db_input high igestis/password/mismatch || true
+		db_go
+
+		db_reset igestis/password1
+		db_reset igestis/password2
+	    elif [ -z "${ROOT_PW1}" ] ; then
+
+		db_input high igestis/password/empty || true
+		db_go
+
+		db_reset igestis/password1
+		db_reset igestis/password2
+	    fi
+
+	done
+
+	# Ask the user to use ldap or not.
+	db_input high igestis/use_ldap || true
+	db_go
+
+	db_get igestis/use_ldap
+	USE_LDAP="${RET}"
+
+	priority=low
+
+	while [ "$USE_LDAP" = true ] ; do
+
+		db_input $priority igestis/ldap/uris || true
+		db_go
+		db_get igestis/ldap/uris
+		LDAP_URIS="${RET}"
+
+		LDAP_BASE="dc=`echo $(hostname -d) | sed 's/^\.//; s/\./,dc=/g'`"
+		db_set igestis/ldap/base "${LDAP_BASE}"
+		db_input $priority igestis/ldap/base || true
+		db_go
+		db_get igestis/ldap/base
+		LDAP_BASE="${RET}"
+
+		db_set igestis/ldap/admin "cn=admin,${LDAP_BASE}"
+		db_input $priority igestis/ldap_admin || true
+		db_go
+		db_get igestis/ldap/admin
+		LDAP_ADMIN="${RET}"
+
+		db_input high igestis/ldap/password || true
+		db_go
+		db_get igestis/ldap/password
+		LDAP_PASS="${RET}"
+
+		unset ERROR
+		LDAP_OUTPUT=$(ldapsearch -H "${LDAP_URIS}" -b "${LDAP_BASE}" -cxD "${LDAP_ADMIN}" -w "${LDAP_PASS}" 2>&1 ) || ERROR=true
+		LDAP_OUTPUT=$(echo $LDAP_OUTPUT | head -n 1 )
+
+		if [ "${ERROR}" = true ] ; then
+			db_fset igestis/ldap/wrong seen false
+			db_subst igestis/ldap/wrong error "${LDAP_OUTPUT}"
+			db_input high igestis/ldap/wrong
+			db_go
+			db_get igestis/ldap/wrong
+			action="${RET}"
+
+			
+
+			case "$action" in
+				"Cancel")
+					exit 1
+				;;
+				"Change settings")
+					priority=high
+				;;
+				Ignore)
+					db_set igestis/use_ldap false
+					break
+				;;
+			esac
+
+		else
+			break
+		fi
+
+	done
+
+	
+
+	
+
+	db_input high igestis/reconfigure-webserver || true
+	db_go
+
+     ;;
+esac
+
+exit 0
+
+

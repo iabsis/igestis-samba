@@ -1,0 +1,15 @@
+Source: igestis-samba
+Section: web
+Priority: extra
+Maintainer: Olivier Bitsch <olivier.b@iabsis.com>
+Build-Depends: debhelper (>= 5), po-debconf
+Standards-Version: 3.7.2
+
+Package: igestis-samba
+Architecture: all
+Depends: igestis (>= 2.0)
+Description: Samba OpenLDAP extension for iGestis
+ This module add the support for Samba OpenLDAP extension.
+ When a new employee is created in iGestis, the module
+ automtically add Samba attribute allow the user to use
+ Samba shares.

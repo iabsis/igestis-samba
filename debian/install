@@ -1,0 +1,4 @@
+config		usr/share/igestis/modules/Samba/
+classes     usr/share/igestis/modules/Samba/
+
+install/ldap    usr/share/doc/igestis-samba/
