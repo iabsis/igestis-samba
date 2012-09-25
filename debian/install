@@ -1,4 +1,6 @@
-config		usr/share/igestis/modules/Samba/
-classes     usr/share/igestis/modules/Samba/
+config		    usr/share/igestis/modules/Samba/
+classes         usr/share/igestis/modules/Samba/
+controllers     usr/share/igestis/modules/Samba/
+templates       usr/share/igestis/modules/Samba/
 
 install/ldap    usr/share/doc/igestis-samba/
