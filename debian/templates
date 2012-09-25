@@ -1,0 +1,8 @@
+Template: igestis-samba/install_ldap
+Type: bolean
+_Description: Do you want that iGestis automatically installs OpenLDAP:
+ In order to use this module, you have to install Samba schema.
+ This step is a little bit hard to do by hand, so iGestis-samba is
+ able to do this for you.
+ .
+ iGestis will add Samba schema and necessary Organisation Unit.
