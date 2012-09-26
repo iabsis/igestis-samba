@@ -30,7 +30,7 @@ class ConfigModuleVars {
      *
      * @var String Name of the menu showed to the user (blank if it is a simple service)
      */
-    const moduleShowedName = "";
+    const moduleShowedName = "Samba";
     
     /**
      *

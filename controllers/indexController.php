@@ -5,22 +5,21 @@
 namespace Igestis\Modules\Samba;
 
 /**
- * Contrôleur permettant de lancer les différentes actions sur les tickets
+ * Show the admin page for Samba
  */
 class indexController extends \IgestisController {
     /**
-     * Affiche le tableau avec la liste des tickets
+     * We show the computer list.
      */
     public function indexAction() {
         // Get list of all computers
         try {
-          $computer_list = new SambaComputers;
-        } catch (Exception $e) {
-          new \wizz(_("Problem during the ldap connection") . $e);
+            $computer_list = new SambaComputers;
+            $computers = $computer_list->listComputers();
+        } catch (\Exception $e) {
+            \IgestisErrors::createWizz($e);
         }
         
-      
-      
-        $this->context->render("pages/adminSamba.twig", array('computer_list' => $computer_list->listComputers()));
+        $this->context->render("pages/adminSamba.twig", array('computer_list' => $computers));
     }
 }

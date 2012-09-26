@@ -13,6 +13,43 @@ namespace Igestis\Modules\Samba;
  */
 class ConfigInitModule implements \Igestis\Interfaces\ConfigMenuInterface {
 
+  
+public static function getRightsList() {
+        $module =   array(
+            /* MODULE_NAME 
+             * contient la référence de l'application que le core a besoin de connaitre */
+            "MODULE_NAME" => ConfigModuleVars::moduleName,
+            /* MODULE_FULL_NAME 
+             * contient le nom de l'application tel qu'affiché dans la gestion des droits */
+            "MODULE_FULL_NAME" => _(ConfigModuleVars::moduleShowedName),
+            /* RIGHTS_LIST 
+             * contient la liste des droits qu'on va définir plus bas */
+            "RIGHTS_LIST" => NULL);
+        
+        /* On définit maintenant la liste des droits */
+        $module['RIGHTS_LIST'] =  array(
+            /* Premier droit "None"*/
+            array(
+                /* CODE 
+                 * contient le code du droit utilisé comme référence dans la base de données */
+                "CODE" => "NONE",
+                /* NAME 
+                 * contient le  nom du droit tel qu'affiché dans la page 
+                 * d'administration des droits */
+                "NAME" => "None",
+                /* DESCRIPTION 
+                 * contient la description du droit pour que l'administrateur sache ce à quoi 
+                 * aura accès l'utilisateur disposant de ce droit */
+                "DESCRIPTION" => "There is no right available for this module"
+            )
+        );
+        
+        return $module;
+    }
+    
+    
+    
+    
     /* Ajoute au menu les différentes url, inutile de faire des vérifications des droits, 
      * le core ne les affichera automatiquement que pour les personnes aillant le droit 
      * d'accéder à la page.

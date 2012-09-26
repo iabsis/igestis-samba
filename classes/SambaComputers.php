@@ -7,7 +7,7 @@ use Igestis\Utils\Dump;
 use Igestis\Utils\Debug;
 
 /**
- * Thie class is designed to update all samba fields in the ldap database
+ * This class is designed to update all samba fields in the ldap database
  *
  * @author Gilles Hemmerlé
  */
@@ -15,6 +15,7 @@ class SambaComputers {
     public function listComputers() {
       
       try {
+        
         // Connect the ldap database
         $ldap = new \LDAP(\ConfigIgestisGlobalVars::LDAP_URIS, ConfigModuleVars::LDAP_COMPUTER_OU);
         $ldap->bind(\ConfigIgestisGlobalVars::LDAP_ADMIN, \ConfigIgestisGlobalVars::LDAP_PASSWORD);
@@ -33,8 +34,9 @@ class SambaComputers {
         }
         
         
-      } catch (Exception $exc) {
-        throw new Exception($exc);
+      } catch (\Exception $e) {
+          throw $e;
+          return array();
       }
       
       Debug::addDump($computers_dn,"computer",3);
@@ -43,6 +45,5 @@ class SambaComputers {
 
       
     }
-  
   
 }

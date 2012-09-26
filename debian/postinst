@@ -73,6 +73,9 @@ case "$1" in
 		LDAP_PASSWORD="${RET}"
 
 		for i in igestis-samba-indexes.ldif igestis-samba-populate.ldif igestis-samba-schema.ldif ; do
+		    if [ -e /usr/share/doc/igestis-samba/ldap/$i.gz ] ; then
+		        gzip -d /usr/share/doc/igestis-samba/ldap/$i.gz
+		    fi
 		    sed -i -e "s/dc=.*,dc=.*/${LDAP_BASE}/g" /usr/share/doc/igestis-samba/ldap/$i
 		done
 
@@ -87,7 +90,7 @@ case "$1" in
 
 	else
 	
-        echo -e "\n   * Warning : OpenLDAP is not used by iGestis, please enable it to have this module working properly.\n"
+        echo "   * Warning : OpenLDAP is not used by iGestis, please enable it to have this module working properly."
 
 	fi
 
