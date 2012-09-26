@@ -1,25 +1,25 @@
-dn: dc=iabsis,dc=local
+dn: dc=example,dc=local
 objectClass: dcObject
 objectclass: organization
-o: iabsis
-dc: iabsis
+o: example
+dc: example
 
-dn: ou=Machines,dc=iabsis,dc=local
+dn: ou=Machines,dc=example,dc=local
 objectClass: top
 objectClass: organizationalUnit
 ou: Machines
 
-dn: ou=Idmap,dc=iabsis,dc=local
+dn: ou=Idmap,dc=example,dc=local
 objectClass: top
 objectClass: organizationalUnit
 ou: Idmap
 
-dn: ou=Customers,dc=iabsis,dc=local
+dn: ou=Customers,dc=example,dc=local
 objectClass: top
 objectClass: organizationalUnit
 ou: Customers
 
-dn: uid=root,ou=Users,dc=iabsis,dc=local
+dn: uid=root,ou=Users,dc=example,dc=local
 cn: root
 sn: root
 objectClass: top
@@ -81,7 +81,7 @@ sambaAcctFlags: [NUD        ]
 sambaSID: S-1-5-21-1617723000-66580594-1567275197-2998
 loginShell: /bin/sh
 
-dn: cn=Domain Admins,ou=Groups,dc=iabsis,dc=local
+dn: cn=Domain Admins,ou=Groups,dc=example,dc=local
 objectClass: top
 objectClass: posixGroup
 objectClass: sambaGroupMapping
@@ -93,7 +93,7 @@ sambaSID: S-1-5-21-1617723000-66580594-1567275197-512
 sambaGroupType: 2
 displayName: Domain Admins
 
-dn: cn=Domain Users,ou=Groups,dc=iabsis,dc=local
+dn: cn=Domain Users,ou=Groups,dc=example,dc=local
 objectClass: top
 objectClass: posixGroup
 objectClass: sambaGroupMapping
@@ -104,7 +104,7 @@ sambaSID: S-1-5-21-1617723000-66580594-1567275197-513
 sambaGroupType: 2
 displayName: Domain Users
 
-dn: cn=Domain Guests,ou=Groups,dc=iabsis,dc=local
+dn: cn=Domain Guests,ou=Groups,dc=example,dc=local
 objectClass: top
 objectClass: posixGroup
 objectClass: sambaGroupMapping
@@ -115,7 +115,7 @@ sambaSID: S-1-5-21-1617723000-66580594-1567275197-514
 sambaGroupType: 2
 displayName: Domain Guests
 
-dn: cn=Domain Computers,ou=Groups,dc=iabsis,dc=local
+dn: cn=Domain Computers,ou=Groups,dc=example,dc=local
 objectClass: top
 objectClass: posixGroup
 objectClass: sambaGroupMapping
@@ -126,7 +126,7 @@ sambaSID: S-1-5-21-1617723000-66580594-1567275197-515
 sambaGroupType: 2
 displayName: Domain Computers
 
-dn: cn=Administrators,ou=Groups,dc=iabsis,dc=local
+dn: cn=Administrators,ou=Groups,dc=example,dc=local
 objectClass: top
 objectClass: posixGroup
 objectClass: sambaGroupMapping
@@ -137,7 +137,7 @@ sambaSID: S-1-5-32-544
 sambaGroupType: 5
 displayName: Administrators
 
-#dn: cn=Users,ou=Groups,dc=iabsis,dc=local
+#dn: cn=Users,ou=Groups,dc=example,dc=local
 #objectClass: top
 #objectClass: posixGroup
 #objectClass: sambaGroupMapping
@@ -148,7 +148,7 @@ displayName: Administrators
 #sambaGroupType: 5
 #displayName: users
 
-#dn: cn=Guests,ou=Groups,dc=iabsis,dc=local
+#dn: cn=Guests,ou=Groups,dc=example,dc=local
 #objectClass: top
 #objectClass: posixGroup
 #objectClass: sambaGroupMapping
@@ -160,7 +160,7 @@ displayName: Administrators
 #sambaGroupType: 5
 #displayName: Guests
 
-#dn: cn=Power Users,ou=Groups,dc=iabsis,dc=local
+#dn: cn=Power Users,ou=Groups,dc=example,dc=local
 #objectClass: top
 #objectClass: posixGroup
 #objectClass: sambaGroupMapping
@@ -171,7 +171,7 @@ displayName: Administrators
 #sambaGroupType: 5
 #displayName: Power Users
 
-dn: cn=Account Operators,ou=Groups,dc=iabsis,dc=local
+dn: cn=Account Operators,ou=Groups,dc=example,dc=local
 objectClass: top
 objectClass: posixGroup
 objectClass: sambaGroupMapping
@@ -182,7 +182,7 @@ sambaSID: S-1-5-32-548
 sambaGroupType: 5
 displayName: Account Operators
 
-#dn: cn=System Operators,ou=Groups,dc=iabsis,dc=local
+#dn: cn=System Operators,ou=Groups,dc=example,dc=local
 #objectClass: top
 #objectClass: posixGroup
 #objectClass: sambaGroupMapping
@@ -193,7 +193,7 @@ displayName: Account Operators
 #sambaGroupType: 5
 #displayName: System Operators
 
-dn: cn=Print Operators,ou=Groups,dc=iabsis,dc=local
+dn: cn=Print Operators,ou=Groups,dc=example,dc=local
 objectClass: top
 objectClass: posixGroup
 objectClass: sambaGroupMapping
@@ -204,7 +204,7 @@ sambaSID: S-1-5-32-550
 sambaGroupType: 5
 displayName: Print Operators
 
-dn: cn=Backup Operators,ou=Groups,dc=iabsis,dc=local
+dn: cn=Backup Operators,ou=Groups,dc=example,dc=local
 objectClass: top
 objectClass: posixGroup
 objectClass: sambaGroupMapping
@@ -215,7 +215,7 @@ sambaSID: S-1-5-32-551
 sambaGroupType: 5
 displayName: Backup Operators
 
-dn: cn=Replicators,ou=Groups,dc=iabsis,dc=local
+dn: cn=Replicators,ou=Groups,dc=example,dc=local
 objectClass: top
 objectClass: posixGroup
 objectClass: sambaGroupMapping
@@ -225,13 +225,3 @@ description: Netbios Domain Supports file replication in a sambaDomainName
 sambaSID: S-1-5-32-552
 sambaGroupType: 5
 displayName: Replicators
-
-dn: sambaDomainName=IABSIS,dc=iabsis,dc=local
-objectClass: top
-objectClass: sambaDomain
-objectClass: sambaUnixIdPool
-sambaDomainName: IABSIS
-sambaSID: S-1-5-21-1617723000-66580594-1567275197
-uidNumber: 1000
-gidNumber: 1000
-sambaNextRid: 1000
