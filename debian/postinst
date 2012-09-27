@@ -52,6 +52,19 @@ case "$1" in
 		
 	fi
 	
+	# Setup the localSID
+	LOCALSID=$([ -e /usr/bin/net ] && net getlocalsid | cut -d: -f 2 | sed "s/ //g")
+	[ -z "$LOCALSID" ] && echo "Warning : Samba is not installed on this server, please set sambaSID constant in ConfigModuleVars.php manually."
+	replace_value_global_vars sambaSID \"${LOCALSID}\"
+	
+	# Setup the Hostname
+	HOSTNAME=$(hostname)
+	[ -z "$HOSTNAME" ] && echo "Warning : The hostname has not be defined properly."
+	replace_value_global_vars profilePath \"\\\\\\\\${HOSTNAME}\\\\%u\\\\.profiles\"
+	replace_value_global_vars homePath \"\\\\\\\\SERVER\\\\%u\\\\\"
+	serverName 
+		
+	
 	# To avoid config missing, we need to create a symbolic link
 	ucfr igestis-samba "$GLOBALVARS"
 
@@ -93,7 +106,7 @@ case "$1" in
 
 	else
 	
-        echo "   * Warning : OpenLDAP is not used by iGestis, please enable it to have this module working properly."
+        echo "Warning : OpenLDAP is not used by iGestis, please enable it to have this module working properly."
 
 	fi
 
