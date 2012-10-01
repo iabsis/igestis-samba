@@ -61,9 +61,9 @@ case "$1" in
 	HOSTNAME=$(hostname)
 	[ -z "$HOSTNAME" ] && echo "Warning : The hostname has not be defined properly."
 	replace_value_global_vars profilePath \"\\\\\\\\${HOSTNAME}\\\\%u\\\\.profiles\"
-	replace_value_global_vars homePath \"\\\\\\\\SERVER\\\\%u\\\\\"
-	serverName 
-		
+	replace_value_global_vars homePath \"\\\\\\\\${HOSTNAME}\\\\%u\\\\\"
+	replace_value_global_vars serverName \"${HOSTNAME}\"
+
 	
 	# To avoid config missing, we need to create a symbolic link
 	ucfr igestis-samba "$GLOBALVARS"
@@ -85,12 +85,14 @@ case "$1" in
 		db_get igestis/ldap/password
 		LDAP_PASSWORD="${RET}"
 
+		# Replace correct OpenLDAP base.
 		for i in igestis-samba-indexes.ldif igestis-samba-populate.ldif igestis-samba-schema.ldif ; do
 		    if [ -e /usr/share/doc/igestis-samba/ldap/$i.gz ] ; then
 		        gzip -d /usr/share/doc/igestis-samba/ldap/$i.gz
 		    fi
 		    sed -i -e "s/dc=.*,dc=.*/${LDAP_BASE}/g" /usr/share/doc/igestis-samba/ldap/$i
 		done
+		
 
 		# Adding the Samba Schema
 		ldapadd -Y EXTERNAL -H ldapi:/// -f /usr/share/doc/igestis-samba/ldap/igestis-samba-schema.ldif > /dev/null 2>&1 || true
