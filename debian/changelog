@@ -1,3 +1,9 @@
+igestis-samba (2.0.1) UNRELEASED; urgency=low
+
+  * Correction d'un problème de dépendance.
+
+ -- Olivier Bitsch <olivier.b@iabsis.com>  Tue, 02 Oct 2012 15:22:46 +0200
+
 igestis-samba (2.0.0) wheezy; urgency=low
 
   * Initial release version 2.0.0.
