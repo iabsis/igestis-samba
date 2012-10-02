@@ -1,4 +1,4 @@
-igestis-samba (2.0.1) UNRELEASED; urgency=low
+igestis-samba (2.0.1) squeeze; urgency=low
 
   * Correction d'un problème de dépendance.
 
