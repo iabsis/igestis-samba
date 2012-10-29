@@ -1,3 +1,9 @@
+igestis-samba (2.0.2) squeeze; urgency=low
+
+  * Correction d'un problème de backslash en trop dans le fichier de configuration.
+
+ -- Olivier Bitsch <olivier.b@iabsis.com>  Mon, 29 Oct 2012 14:27:11 +0100
+
 igestis-samba (2.0.1) squeeze; urgency=low
 
   * Correction d'un problème de dépendance.
