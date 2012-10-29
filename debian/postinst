@@ -61,7 +61,7 @@ case "$1" in
 	HOSTNAME=$(hostname)
 	[ -z "$HOSTNAME" ] && echo "Warning : The hostname has not be defined properly."
 	replace_value_global_vars profilePath \"\\\\\\\\${HOSTNAME}\\\\%u\\\\.profiles\"
-	replace_value_global_vars homePath \"\\\\\\\\${HOSTNAME}\\\\%u\\\\\"
+	replace_value_global_vars homePath \"\\\\\\\\${HOSTNAME}\\\\%u\"
 	replace_value_global_vars serverName \"${HOSTNAME}\"
 
 	

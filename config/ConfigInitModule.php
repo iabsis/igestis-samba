@@ -26,7 +26,7 @@ class ConfigInitModule implements \Igestis\Interfaces\ConfigMenuInterface {
          */
         $menu->addItem(
                 dgettext(ConfigModuleVars::textDomain, "Administration"), 
-                dgettext(ConfigModuleVars::textDomain, "Samba"), 
+                dgettext(ConfigModuleVars::textDomain, "Domain's computers"), 
                 "admin_samba"
         );
     }
