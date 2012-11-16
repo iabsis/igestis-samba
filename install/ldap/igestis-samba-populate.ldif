@@ -19,6 +19,12 @@ objectClass: top
 objectClass: organizationalUnit
 ou: Customers
 
+dn: ou=Groups,dc=domaine,dc=local
+objectClass: top
+objectClass: organizationalUnit
+ou: Groups
+
+
 dn: uid=root,ou=Users,dc=example,dc=local
 cn: root
 sn: root

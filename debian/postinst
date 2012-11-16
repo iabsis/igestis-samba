@@ -101,8 +101,8 @@ case "$1" in
 		ldapadd -Y EXTERNAL -H ldapi:/// -f /usr/share/doc/igestis-samba/ldap/igestis-samba-indexes.ldif > /dev/null 2>&1 || true
 
 		# Small patch avoid the password expiring in old igestis version.
-		ldapadd -cxD "${LDAP_ADMIN}" -w ${LDAP_PASSWORD} -f /usr/share/doc/igestis/ldap/igestis-samba-populate.ldif > /dev/null 2>&1 || true
-		
+		ldapadd -cxD "${LDAP_ADMIN}" -w ${LDAP_PASSWORD} -f /usr/share/doc/igestis-samba/ldap/igestis-samba-populate.ldif > /dev/null 2>&1 || true
+
 		# Replace value in config
 		replace_value_global_vars LDAP_COMPUTER_OU \"ou=Machines,${LDAP_BASE}\"
 
