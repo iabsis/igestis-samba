@@ -1,4 +1,4 @@
-igestis-samba (2.0.3) UNRELEASED; urgency=low
+igestis-samba (2.0.3) squeeze; urgency=low
 
   * Correction d'un chemin invalide dans le postinst.
   * Ajout d'un "ou" manquant lors de la création de l'arborescence.
