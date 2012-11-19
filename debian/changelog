@@ -1,3 +1,9 @@
+igestis-samba (2.0.4) squeeze; urgency=low
+
+  * Correction du postinst.
+
+ -- Olivier Bitsch <olivier.b@iabsis.com>  Mon, 19 Nov 2012 10:05:23 +0100
+
 igestis-samba (2.0.3) squeeze; urgency=low
 
   * Correction d'un chemin invalide dans le postinst.

@@ -88,7 +88,7 @@ case "$1" in
 		# Replace correct OpenLDAP base.
 		for i in igestis-samba-indexes.ldif igestis-samba-populate.ldif igestis-samba-schema.ldif ; do
 		    if [ -e /usr/share/doc/igestis-samba/ldap/$i.gz ] ; then
-		        gzip -d /usr/share/doc/igestis-samba/ldap/$i.gz
+		        gzip -df /usr/share/doc/igestis-samba/ldap/$i.gz
 		    fi
 		    sed -i -e "s/dc=.*,dc=.*/${LDAP_BASE}/g" /usr/share/doc/igestis-samba/ldap/$i
 		done
