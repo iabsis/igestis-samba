@@ -25,6 +25,11 @@ class ConfigHookListener implements \Igestis\Interfaces\HookListenerInterface  {
                 return true;
                 break;
             // Default, do nothing
+            case "command" :
+                $application = $params->get("application");
+                $application->add(new SambaCommand);
+                return true;
+                break;
             default:
                 break;
         }
