@@ -71,27 +71,71 @@ case "$1" in
 	db_get igestis_samba/install_ldap
 	USE_LDAP="${RET}"
 
+
+    # TODO : Make a personnalised message and only ask this the first time.
 	if [ "$USE_LDAP" = true ] ; then
+		
+	       # We ask about a new root password used in iGestis.
+            while [ ! "${ROOT_PW1}" = "${ROOT_PW2}" -o -z "${ROOT_PW1}" ] ; do
+                db_input high igestis/password1 || true
+                db_go
+        
+                db_input high igestis/password2 || true
+                db_go
+        
+                db_get igestis/password1
+                ROOT_PW1="${RET}"
+        
+                db_get igestis/password2
+                ROOT_PW2="${RET}"
+        
+                if [ ! "${ROOT_PW1}" = "${ROOT_PW2}" ] ; then
+                    db_input high igestis/password/mismatch || true
+                    db_go
+            
+                    db_reset igestis/password1
+                    db_reset igestis/password2
+                elif [ -z "${ROOT_PW1}" ] ; then
+        
+                    db_input high igestis/password/empty || true
+                    db_go
+            
+                    db_reset igestis/password1
+                    db_reset igestis/password2
+              
+                fi
+        
+            done
 
-		db_get igestis/ldap/base
-		LDAP_BASE="${RET}"
-
-		db_get igestis/ldap/uris
-		LDAP_URIS="${RET}"
-
-		db_get igestis/ldap/admin
-		LDAP_ADMIN="${RET}"
-
-		db_get igestis/ldap/password
-		LDAP_PASSWORD="${RET}"
+        # We temporarly change GLOBALVARS to igestis core config in order to
+        # get Ldap values.
+        GLOBALVARS=/etc/igestis/ConfigIgestisGlobalVars.php
+        LDAP_BASE=$(get_value_global_vars LDAP_BASE | sed "s/^\"//g" | sed "s/\"$//g")
+    	LDAP_URIS=$(get_value_global_vars LDAP_URIS | sed "s/^\"//g" | sed "s/\"$//g")
+		LDAP_ADMIN=$(get_value_global_vars LDAP_ADMIN | sed "s/^\"//g" | sed "s/\"$//g")
+		LDAP_PASSWORD=$(get_value_global_vars LDAP_PASSWORD | sed "s/^\"//g" | sed "s/\"$//g")
+		GLOBALVARS=${MODULE_FOLDER}/config/ConfigModuleVars.php
+		
 
 		# Replace correct OpenLDAP base.
-		for i in igestis-samba-indexes.ldif igestis-samba-populate.ldif igestis-samba-schema.ldif ; do
+		for i in igestis-samba-indexes.ldif igestis-samba-populate.ldif igestis-samba-schema.ldif igestis-samba-root-attributes.ldif ; do
 		    if [ -e /usr/share/doc/igestis-samba/ldap/$i.gz ] ; then
 		        gzip -df /usr/share/doc/igestis-samba/ldap/$i.gz
 		    fi
 		    sed -i -e "s/dc=.*,dc=.*/${LDAP_BASE}/g" /usr/share/doc/igestis-samba/ldap/$i
 		done
+		
+		# This command will give this output :
+		# User password:{MD5}BaZxxmrv6hJMwIt26m0wuw==
+        # LM password:CEEB0FA9F240C200417EAF50CFAC29C3
+        # NT password:3C99B8901B00758369F18B9DF72012C8
+		ENCRYPTED_ROOT_PW=$(php /usr/share/igestis/command.php Samba:generatePassword ${ROOT_PW1})
+		
+		# Get the hashed LM and NT password and replace it in ldif file.
+		LM_password=$(echo "$ENCRYPTED_ROOT_PW" | head -n 2 | tail -n 1 | sed 's/LM password://')
+		NT_password=$(echo "$ENCRYPTED_ROOT_PW" | tail -n 1 | sed 's/NT password://')
+		sed -i "s/sambaLMPassword:.*/sambaLMPassword:\ $LM_password/" /usr/share/doc/igestis-samba/ldap/igestis-samba-root-attributes.ldif
+		sed -i "s/sambaNTPassword:.*/sambaNTPassword:\ $NT_password/" /usr/share/doc/igestis-samba/ldap/igestis-samba-root-attributes.ldif
 		
 
 		# Adding the Samba Schema
@@ -100,8 +144,11 @@ case "$1" in
 		# Addition indexing for Samba
 		ldapadd -Y EXTERNAL -H ldapi:/// -f /usr/share/doc/igestis-samba/ldap/igestis-samba-indexes.ldif > /dev/null 2>&1 || true
 
-		# Small patch avoid the password expiring in old igestis version.
+		# Add the right OU.
 		ldapadd -cxD "${LDAP_ADMIN}" -w ${LDAP_PASSWORD} -f /usr/share/doc/igestis-samba/ldap/igestis-samba-populate.ldif > /dev/null 2>&1 || true
+		
+		# Adding missing Samba the attribute to the root account
+		ldapmodify -cxD "${LDAP_ADMIN}" -w ${LDAP_PASSWORD} -f /usr/share/doc/igestis-samba/ldap/igestis-samba-root-attributes.ldif > /dev/null 2>&1 || true
 
 		# Replace value in config
 		replace_value_global_vars LDAP_COMPUTER_OU \"ou=Machines,${LDAP_BASE}\"
@@ -112,7 +159,10 @@ case "$1" in
 
 	fi
 
-	db_reset igestis/ldap/password || true
+    # Clean all saved password from the config.
+    db_reset igestis/password1 || true
+    db_reset igestis/password2 || true
+    db_reset igestis/ldap/password || true
 
 
     ;;

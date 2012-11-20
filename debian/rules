@@ -79,8 +79,8 @@ binary-arch: build install
 	dh_installman
 	dh_link
 	find debian/igestis -name *.svn | xargs -r rm -r
-	find debian/igestis/usr/share/igestis/theme/iabsis_v2/ -name *.js | xargs -n 1 -I {} yui-compressor {} -o {}
-	find debian/igestis/usr/share/igestis/theme/iabsis_v2/ -name *.css | xargs -n 1 -I {} yui-compressor {} -o {}
+#	find debian/igestis/usr/share/igestis/theme/iabsis_v2/ -name *.js | xargs -n 1 -I {} yui-compressor {} -o {}
+#	find debian/igestis/usr/share/igestis/theme/iabsis_v2/ -name *.css | xargs -n 1 -I {} yui-compressor {} -o {}
 	dh_strip
 	dh_compress
 	dh_fixperms
