@@ -45,7 +45,7 @@ class SambaLdapUpdate {
             
             //Replacements in differents vars.
             $profilePath = str_replace(array('%u'), array($this->contact->getLogin()), ConfigModuleVars::profilePath);
-            $homeDrive = str_replace(array('%u'), array($this->contact->getLogin()), ConfigModuleVars::homeDrive);
+            $homePath = str_replace(array('%u'), array($this->contact->getLogin()), ConfigModuleVars::homePath);
 
              // Global datas
             $ldapArray = array(
@@ -54,7 +54,7 @@ class SambaLdapUpdate {
                 "loginShell" => "/bin/bash",
                 "sambaAcctFlags" => "[U]",
                 "sambaHomeDrive" => ConfigModuleVars::homeDrive,
-                "sambaHomePath" => $homeDrive,
+                "sambaHomePath" => $homePath,
                 "sambaKickoffTime" => "2147483647",
                 "sambaPrimaryGroupSID" => ConfigModuleVars::sambaSID . "-513",
                 "sambaProfilePath" => $profilePath,
