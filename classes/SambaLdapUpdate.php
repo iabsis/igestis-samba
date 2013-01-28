@@ -2,10 +2,6 @@
 
 namespace Igestis\Modules\Samba;
 
-use Igestis\Utils\Dump;
-
-use Igestis\Utils\Debug;
-
 /**
  * Thie class is designed to update all samba fields in the ldap database
  *
@@ -46,7 +42,7 @@ class SambaLdapUpdate {
             //Replacements in differents vars.
             $profilePath = str_replace(array('%u'), array($this->contact->getLogin()), ConfigModuleVars::profilePath);
             $homePath = str_replace(array('%u'), array($this->contact->getLogin()), ConfigModuleVars::homePath);
-            if(defined("ConfigModuleVars::loginShell")) {
+            if(defined("Igestis\Modules\Samba\ConfigModuleVars::loginShell")) {
               $loginShell =  ConfigModuleVars::loginShell;
             } else {
               $loginShell = "/sbin/nologin";

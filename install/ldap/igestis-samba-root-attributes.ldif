@@ -1,0 +1,35 @@
+dn: uid=root,ou=Users,dc=example,dc=local
+changetype: modify
+add: objectClass
+objectClass: sambaSamAccount
+-
+add: sambaHomePath
+sambaHomePath: \\serveur\root
+-
+add: sambaHomeDrive
+sambaHomeDrive: Z:
+-
+add: sambaProfilePath
+sambaProfilePath: \\serveur\root\.profiles
+-
+add: sambaPrimaryGroupSID
+sambaPrimaryGroupSID: S-1-5-21-547694503-322085435-2059875846-512
+-
+add: sambaSID
+sambaSID: S-1-5-21-547694503-322085435-2059875846-500
+-
+add: sambaLMPassword
+sambaLMPassword:
+-
+add: sambaAcctFlags
+sambaAcctFlags: [U]
+-
+add: sambaNTPassword
+sambaNTPassword:
+-
+add: sambaPwdLastSet
+sambaPwdLastSet: 1353126238
+-
+add: sambaPwdMustChange
+sambaPwdMustChange: 1353039838
+

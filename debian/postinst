@@ -48,6 +48,7 @@ case "$1" in
 
 	else
 
+        FIRST_INSTALL=true
 		cp ${MODULE_FOLDER}/config/ConfigModuleVars-template.php $GLOBALVARS
 		
 	fi
@@ -68,12 +69,13 @@ case "$1" in
 	# To avoid config missing, we need to create a symbolic link
 	ucfr igestis-samba "$GLOBALVARS"
 
-	db_get igestis_samba/install_ldap
-	USE_LDAP="${RET}"
+
+    db_get igestis/authentication
+    AUTHENTICATION="${RET}"
 
 
     # TODO : Make a personnalised message and only ask this the first time.
-	if [ "$USE_LDAP" = true ] ; then
+	if [ "$AUTHENTICATION" = "OpenLDAP" ] && [ "$FIRST_INSTALL" = true ] ; then
 		
 	       # We ask about a new root password used in iGestis.
             while [ ! "${ROOT_PW1}" = "${ROOT_PW2}" -o -z "${ROOT_PW1}" ] ; do
@@ -152,10 +154,6 @@ case "$1" in
 
 		# Replace value in config
 		replace_value_global_vars LDAP_COMPUTER_OU \"ou=Machines,${LDAP_BASE}\"
-
-	else
-	
-        echo "Warning : OpenLDAP is not used by iGestis, please enable it to have this module working properly."
 
 	fi
 
