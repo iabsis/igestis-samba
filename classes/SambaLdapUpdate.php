@@ -46,12 +46,17 @@ class SambaLdapUpdate {
             //Replacements in differents vars.
             $profilePath = str_replace(array('%u'), array($this->contact->getLogin()), ConfigModuleVars::profilePath);
             $homePath = str_replace(array('%u'), array($this->contact->getLogin()), ConfigModuleVars::homePath);
+            if(defined("ConfigModuleVars::loginShell")) {
+              $loginShell =  ConfigModuleVars::loginShell;
+            } else {
+              $loginShell = "/sbin/nologin";
+            }
 
              // Global datas
             $ldapArray = array(
                 "objectClass" => array("sambaSamAccount"),                
                 "homeDirectory" => "/home/" . $this->contact->getLogin(),
-                "loginShell" => "/sbin/nologin",
+                "loginShell" => $loginShell,
                 "sambaAcctFlags" => "[U]",
                 "sambaHomeDrive" => ConfigModuleVars::homeDrive,
                 "sambaHomePath" => $homePath,

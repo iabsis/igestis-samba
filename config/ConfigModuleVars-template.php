@@ -68,6 +68,12 @@ class ConfigModuleVars {
      * @var homeDrive Drive letter map by Windows on homePath.
      */
     const homeDrive = "Z:";
+    
+    /**
+     * @var loginShell permit to choose the prefered login shell
+     * for an employee created in igestis.
+     */
+    const loginShell = "/sbin/nologin";
 
     /**
      * 
