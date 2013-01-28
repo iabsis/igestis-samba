@@ -51,7 +51,7 @@ class SambaLdapUpdate {
             $ldapArray = array(
                 "objectClass" => array("sambaSamAccount"),                
                 "homeDirectory" => "/home/" . $this->contact->getLogin(),
-                "loginShell" => "/bin/bash",
+                "loginShell" => "/sbin/nologin",
                 "sambaAcctFlags" => "[U]",
                 "sambaHomeDrive" => ConfigModuleVars::homeDrive,
                 "sambaHomePath" => $homePath,
