@@ -1,4 +1,10 @@
-igestis-samba (2.0.7) UNRELEASED; urgency=medium
+igestis-samba (2.0.8) wheezy; urgency=medium
+
+  * Fix from var used once array merged.
+
+ -- Olivier Bitsch <olivier.b@iabsis.com>  Thu, 04 Sep 2014 14:37:08 +0200
+
+igestis-samba (2.0.7) wheezy; urgency=medium
 
   * Fix the Array sent to LDAP when an empty value is defined in the config file.
 
