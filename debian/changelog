@@ -1,3 +1,9 @@
+igestis-samba (2.0.7) UNRELEASED; urgency=medium
+
+  * Fix the Array sent to LDAP when an empty value is defined in the config file.
+
+ -- Olivier Bitsch <olivier.b@iabsis.com>  Thu, 04 Sep 2014 11:25:10 +0200
+
 igestis-samba (2.0.6) squeeze; urgency=low
 
   * Correction de sécurité pour empêcher les comptes standart d'utiliser ssh.
