@@ -82,6 +82,8 @@ class SambaLdapUpdate {
                 $ldapArray["sambaNTPassword"] = $NT;
             }
             
+            $ldap_array = array_filter($ldapArray);
+            
             // Launch the update in the ldap database
             foreach ($nodesList as $node) {
                 $node->modify($ldap->mergeArrays($nodesList, $ldapArray));
