@@ -7,16 +7,18 @@
 
 # We set some var specific for igestis
 MODULE_FOLDER=/usr/share/igestis/modules/Samba
-GLOBALVARS=${MODULE_FOLDER}/config/ConfigModuleVars.php
+GLOBALVARS=/etc/igestis/config.ini
 
 replace_value_global_vars()
 {
 
-sed -i "s#const[[:space:]]*$1.*#const $1 = $2;#g" $GLOBALVARS
-sed_return_value=$?
+sed -i "s#$1[[:space:]]*=.*#$1 = $2#g" $GLOBALVARS
+sed_return_value=$(grep "^$1[[:space:]]*=.*" $GLOBALVARS | \
+  cut -d= -f 2 | \
+  cut -d" " -f 2)
 
-if [ ! "$sed_return_value" = 0 ] ; then
-    echo "error : the variable $1 was not found in the file $GLOBALVARS"
+if [ -z "$sed_return_value" ] ; then
+    echo "$1 = $2" >> $GLOBALVARS
 fi
 
 }
@@ -24,9 +26,9 @@ fi
 get_value_global_vars()
 {
 
-grep "^[[:space:]]*const[[:space:]]*$1" $GLOBALVARS | \
-  sed "s#^[[:space:]]*const[[:space:]]$1[[:space:]]=[[:space:]]##g" | \
-  sed 's/[ ;][[:space:]]*$//g'
+grep "^$1[[:space:]]*=.*" $GLOBALVARS | \
+  cut -d= -f 2 | \
+  cut -d" " -f 2
 
 }
 
@@ -50,14 +52,14 @@ case "$1" in
 
         FIRST_INSTALL=true
 		cp ${MODULE_FOLDER}/config/ConfigModuleVars-template.php $GLOBALVARS
-		
+
 	fi
-	
+
 	# Setup the localSID
 	LOCALSID=$([ -e /usr/bin/net ] && net getlocalsid | cut -d: -f 2 | sed "s/ //g")
 	[ -z "$LOCALSID" ] && echo "Warning : Samba is not installed on this server, please set sambaSID constant in ConfigModuleVars.php manually."
 	replace_value_global_vars sambaSID \"${LOCALSID}\"
-	
+
 	# Setup the Hostname
 	HOSTNAME=$(hostname)
 	[ -z "$HOSTNAME" ] && echo "Warning : The hostname has not be defined properly."
@@ -65,7 +67,7 @@ case "$1" in
 	replace_value_global_vars homePath \"\\\\\\\\${HOSTNAME}\\\\%u\"
 	replace_value_global_vars serverName \"${HOSTNAME}\"
 
-	
+
 	# To avoid config missing, we need to create a symbolic link
 	ucfr igestis-samba "$GLOBALVARS"
 
@@ -76,37 +78,37 @@ case "$1" in
 
     # TODO : Make a personnalised message and only ask this the first time.
 	if [ "$AUTHENTICATION" = "OpenLDAP" ] && [ "$FIRST_INSTALL" = true ] ; then
-		
+
 	       # We ask about a new root password used in iGestis.
             while [ ! "${ROOT_PW1}" = "${ROOT_PW2}" -o -z "${ROOT_PW1}" ] ; do
                 db_input high igestis/password1 || true
                 db_go
-        
+
                 db_input high igestis/password2 || true
                 db_go
-        
+
                 db_get igestis/password1
                 ROOT_PW1="${RET}"
-        
+
                 db_get igestis/password2
                 ROOT_PW2="${RET}"
-        
+
                 if [ ! "${ROOT_PW1}" = "${ROOT_PW2}" ] ; then
                     db_input high igestis/password/mismatch || true
                     db_go
-            
+
                     db_reset igestis/password1
                     db_reset igestis/password2
                 elif [ -z "${ROOT_PW1}" ] ; then
-        
+
                     db_input high igestis/password/empty || true
                     db_go
-            
+
                     db_reset igestis/password1
                     db_reset igestis/password2
-              
+
                 fi
-        
+
             done
 
         # We temporarly change GLOBALVARS to igestis core config in order to
@@ -117,7 +119,7 @@ case "$1" in
 		LDAP_ADMIN=$(get_value_global_vars LDAP_ADMIN | sed "s/^\"//g" | sed "s/\"$//g")
 		LDAP_PASSWORD=$(get_value_global_vars LDAP_PASSWORD | sed "s/^\"//g" | sed "s/\"$//g")
 		GLOBALVARS=${MODULE_FOLDER}/config/ConfigModuleVars.php
-		
+
 
 		# Replace correct OpenLDAP base.
 		for i in igestis-samba-indexes.ldif igestis-samba-populate.ldif igestis-samba-schema.ldif igestis-samba-root-attributes.ldif ; do
@@ -126,29 +128,29 @@ case "$1" in
 		    fi
 		    sed -i -e "s/dc=.*,dc=.*/${LDAP_BASE}/g" /usr/share/doc/igestis-samba/ldap/$i
 		done
-		
+
 		# This command will give this output :
 		# User password:{MD5}BaZxxmrv6hJMwIt26m0wuw==
         # LM password:CEEB0FA9F240C200417EAF50CFAC29C3
         # NT password:3C99B8901B00758369F18B9DF72012C8
 		ENCRYPTED_ROOT_PW=$(php /usr/share/igestis/command.php Samba:generatePassword ${ROOT_PW1})
-		
+
 		# Get the hashed LM and NT password and replace it in ldif file.
 		LM_password=$(echo "$ENCRYPTED_ROOT_PW" | head -n 2 | tail -n 1 | sed 's/LM password://')
 		NT_password=$(echo "$ENCRYPTED_ROOT_PW" | tail -n 1 | sed 's/NT password://')
 		sed -i "s/sambaLMPassword:.*/sambaLMPassword:\ $LM_password/" /usr/share/doc/igestis-samba/ldap/igestis-samba-root-attributes.ldif
 		sed -i "s/sambaNTPassword:.*/sambaNTPassword:\ $NT_password/" /usr/share/doc/igestis-samba/ldap/igestis-samba-root-attributes.ldif
-		
+
 
 		# Adding the Samba Schema
 		ldapadd -Y EXTERNAL -H ldapi:/// -f /usr/share/doc/igestis-samba/ldap/igestis-samba-schema.ldif > /dev/null 2>&1 || true
-	
+
 		# Addition indexing for Samba
 		ldapadd -Y EXTERNAL -H ldapi:/// -f /usr/share/doc/igestis-samba/ldap/igestis-samba-indexes.ldif > /dev/null 2>&1 || true
 
 		# Add the right OU.
 		ldapadd -cxD "${LDAP_ADMIN}" -w ${LDAP_PASSWORD} -f /usr/share/doc/igestis-samba/ldap/igestis-samba-populate.ldif > /dev/null 2>&1 || true
-		
+
 		# Adding missing Samba the attribute to the root account
 		ldapmodify -cxD "${LDAP_ADMIN}" -w ${LDAP_PASSWORD} -f /usr/share/doc/igestis-samba/ldap/igestis-samba-root-attributes.ldif > /dev/null 2>&1 || true
 
@@ -181,5 +183,3 @@ esac
 #DEBHELPER#
 
 exit 0
-
-

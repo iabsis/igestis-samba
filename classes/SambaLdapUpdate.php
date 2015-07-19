@@ -20,25 +20,25 @@ class SambaLdapUpdate {
      * @param \CoreContacts $contact
      */
     public function __construct(\CoreContacts $contact) {
-        
+
         // If the ldap synchronization is not activated, quit the script
-        if(\ConfigIgestisGlobalVars::USE_LDAP != true) return;
-        
+        if(\ConfigIgestisGlobalVars::useLdap() != true) return;
+
         $this->contact = $contact;
         if ($this->contact->getUser()->getUserType() != "employee")
             return;
 
         try {
             // Connect the ldap database
-            $ldap = new \LDAP(\ConfigIgestisGlobalVars::LDAP_URIS, \ConfigIgestisGlobalVars::LDAP_BASE);
-            $ldap->bind(\ConfigIgestisGlobalVars::LDAP_ADMIN, \ConfigIgestisGlobalVars::LDAP_PASSWORD);
+            $ldap = new \LDAP(\ConfigIgestisGlobalVars::ldapUris(), \ConfigIgestisGlobalVars::ldapBase());
+            $ldap->bind(\ConfigIgestisGlobalVars::ldapAdmin(), \ConfigIgestisGlobalVars::ldapPassword());
 
             // Search the person
-            $nodesList = $ldap->find("(uid=" . $this->contact->getLogin() . ")");      
-            
+            $nodesList = $ldap->find("(uid=" . $this->contact->getLogin() . ")");
+
             // If noone found, quit this script, the person should be created from the main script, if not, we cannot update it...
             if(!$nodesList) return;
-            
+
             //Replacements in differents vars.
             $profilePath = str_replace(array('%u'), array($this->contact->getLogin()), ConfigModuleVars::profilePath);
             $homePath = str_replace(array('%u'), array($this->contact->getLogin()), ConfigModuleVars::homePath);
@@ -50,7 +50,7 @@ class SambaLdapUpdate {
 
              // Global datas
             $ldapArray = array(
-                "objectClass" => array("sambaSamAccount"),                
+                "objectClass" => array("sambaSamAccount"),
                 "homeDirectory" => "/home/" . $this->contact->getLogin(),
                 "loginShell" => $loginShell,
                 "sambaAcctFlags" => "[U]",
@@ -61,16 +61,16 @@ class SambaLdapUpdate {
                 "sambaProfilePath" => $profilePath,
                 "sambaPwdCanChange" => "0",
                 "sambaPwdLastSet" => "2147483647",
-                "sambaPwdMustChange" => "2147483647"                  
+                "sambaPwdMustChange" => "2147483647"
             );
-            
+
             // Create the new sambaSID if the person has not one before
             $oldValues = $nodesList->getEntries();
             if(!isset($oldValues[0]['sambaSID'])) {
                 $uidNumber = $oldValues[0]['uidnumber'][0];
                 $ldapArray["sambaSID"] = ConfigModuleVars::sambaSID . "-" . $uidNumber;
             }
-            
+
             // Create the password for samba connections
             $plainPassword = $this->contact->getPlainPassword();
             if($plainPassword) {
@@ -81,9 +81,9 @@ class SambaLdapUpdate {
                 $NT = $sambapassword->nthash($plainPassword);
                 $ldapArray["sambaNTPassword"] = $NT;
             }
-            
+
             $ldapArray = array_filter($ldapArray);
-            
+
             // Launch the update in the ldap database
             foreach ($nodesList as $node) {
                 $node->modify($ldap->mergeArrays($nodesList, $ldapArray));
@@ -91,6 +91,6 @@ class SambaLdapUpdate {
         } catch (Exception $exc) {
             new \wizz(_("Problem during the samba ldap update") . (\ConfigIgestisGlobalVars::DEBUG_MODE ? "<br />" . $exc->getTraceAsString() : ""), \wizz::$WIZZ_WARNING);
         }
-    }    
-    
+    }
+
 }

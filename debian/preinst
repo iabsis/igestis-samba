@@ -39,28 +39,28 @@ case "$1" in
 
 	while [ "$INSTALL_LDAP" = true ] ; do
         
-		db_input $priority igestis/ldap/uris || true
+		db_input $priority igestis/directory/uris || true
 		db_go
-		db_get igestis/ldap/uris
+		db_get igestis/directory/uris
 		LDAP_URIS="${RET}"
         
 
 		LDAP_BASE="dc=`echo $(hostname -d) | sed 's/^\.//; s/\./,dc=/g'`"
-		db_set igestis/ldap/base "${LDAP_BASE}"
-		db_input $priority igestis/ldap/base || true
+		db_set igestis/directory/base "${LDAP_BASE}"
+		db_input $priority igestis/directory/base || true
 		db_go
-		db_get igestis/ldap/base
+		db_get igestis/directory/base
 		LDAP_BASE="${RET}"
 
-		db_set igestis/ldap/admin "cn=admin,${LDAP_BASE}"
-		db_input $priority igestis/ldap_admin || true
+		db_set igestis/directory/admin "cn=admin,${LDAP_BASE}"
+		db_input $priority igestis/directory/admin || true
 		db_go
-		db_get igestis/ldap/admin
+		db_get igestis/directory/admin
 		LDAP_ADMIN="${RET}"
 
-		db_input high igestis/ldap/password || true
+		db_input high igestis/directory/password || true
 		db_go
-		db_get igestis/ldap/password
+		db_get igestis/directory/password
 		LDAP_PASS="${RET}"
 
 		unset ERROR
@@ -68,11 +68,11 @@ case "$1" in
 		LDAP_OUTPUT=$(echo $LDAP_OUTPUT | head -n 1 )
 
 		if [ "${ERROR}" = true ] ; then
-			db_fset igestis/ldap/wrong seen false
-			db_subst igestis/ldap/wrong error "${LDAP_OUTPUT}"
-			db_input high igestis/ldap/wrong
+			db_fset igestis/directory/wrong seen false
+			db_subst igestis/directory/wrong error "${LDAP_OUTPUT}"
+			db_input high igestis/directory/wrong
 			db_go
-			db_get igestis/ldap/wrong
+			db_get igestis/directory/wrong
 			action="${RET}"
 
 			

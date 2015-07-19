@@ -7,7 +7,7 @@ Standards-Version: 3.7.2
 
 Package: igestis-samba
 Architecture: all
-Depends: igestis (>= 2.1)
+Depends: igestis (>= 3.0.0)
 Description: Samba OpenLDAP extension for iGestis
  This module add the support for Samba OpenLDAP extension.
  When a new employee is created in iGestis, the module

@@ -1,3 +1,9 @@
+igestis-samba (3.0.0) testing; urgency=medium
+
+  * Fix debconf variables for new igestis 3.
+
+ -- Olivier Bitsch <olivier.b@iabsis.com>  Sat, 18 Jul 2015 11:42:01 +0200
+
 igestis-samba (2.0.8) wheezy; urgency=medium
 
   * Fix from var used once array merged.
