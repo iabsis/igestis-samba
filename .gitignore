@@ -1,0 +1,10 @@
+.buildpath
+.project
+.remote-sync.json
+build-stamp
+configure-stamp
+debian/igestis-samba.debhelper.log
+debian/igestis-samba.postrm.debhelper
+debian/igestis-samba.substvars
+debian/igestis-samba/
+
